@@ -1,8 +1,10 @@
 package com.alex.spring.mvc;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +37,10 @@ public class MyController {
 //        return "show-emp-details";
 //    }
     @RequestMapping("/showDetails")
-    public String showEmployeeDetails(@ModelAttribute("employee") Employee emp) {
-
-        return "show-emp-details";
+    public String showEmployeeDetails(@Valid @ModelAttribute("employee") Employee emp, BindingResult bindingResult) {
+        if(bindingResult.hasErrors())
+            return "ask-emp-details";
+        else
+            return "show-emp-details";
     }
 }

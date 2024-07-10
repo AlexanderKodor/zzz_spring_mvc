@@ -1,12 +1,18 @@
 package com.alex.spring.mvc;
 
+import jakarta.validation.constraints.*;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Employee {
+    @Size(min=2, message = "Минимальная длина - 2 символа")
     private String name;
+    @NotBlank(message = "Поле не должно быть пустым")
     private String surname;
+    @Min(value = 100, message = "ЗП д.б. больше 100")
+    @Max(value = 1000, message = "ЗП больше 1000 не получают")
     private int salary;
     private String department;
     private Map<String,String> departments;
@@ -14,6 +20,8 @@ public class Employee {
     private Map<String,String> cars;
     private String[] languages;
     private Map<String,String> languagesList;
+    @Pattern(regexp = "\\d{3}-\\d{2}-\\d{2}", message = "Используйте шаблон XXX-XX-XX")
+    private String phoneNumber;
 
     public Employee(String name, String surname, int salary, String department) {
         this.name = name;
@@ -34,6 +42,14 @@ public class Employee {
         languagesList.put("EN", "English");
         languagesList.put("RU", "Russian");
         languagesList.put("DE", "Deutch");
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Map<String, String> getLanguagesList() {
@@ -117,6 +133,7 @@ public class Employee {
                 ", department='" + department + '\'' +
                 ", car='" + car + '\'' +
                 ", languages=" + Arrays.toString(languages) +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }
